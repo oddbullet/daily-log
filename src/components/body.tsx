@@ -1,42 +1,60 @@
-import { Calendar } from "antd";
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
-import { useEffect, useRef } from "react";
+import "./body.css";
+import TextArea from "./textArea";
 
-function Recent() {
-  return <div>RECENT AREA</div>;
+function hour12(hour: number) {
+  let hours = hour % 12;
+  if (hours == 0) {
+    return 12;
+  } else {
+    return hours;
+  }
 }
 
-function TextArea() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const quillRef = useRef<Quill | null>(null);
-  const isMounted = useRef<boolean>(false);
+// Date, Day, Hours, and Minutes
+function TodayDate() {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-  useEffect(() => {
-    if (!isMounted.current) {
-      quillRef.current = new Quill(containerRef.current!, {
-        theme: "snow",
-      });
-      isMounted.current = true;
-    }
+  const date = new Date();
+  const monthName: string = months[date.getMonth()];
+  const dateNumber: number = date.getDate();
+  const hour: number = date.getHours();
+  const minute: number = date.getMinutes();
 
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = "";
-      }
-      quillRef.current = null;
-    };
-  }, []);
+  const formattedMinute = minute.toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
-  return <div ref={containerRef}></div>;
+  const time =
+    hour12(hour) + ":" + formattedMinute + " " + (hour < 12 ? "AM" : "PM");
+
+  return (
+    <div className="date">
+      Today, {monthName} {dateNumber} at {time}
+    </div>
+  );
 }
 
 export default function Body() {
   return (
     <>
-      <Calendar fullscreen={false}></Calendar>
-      <Recent></Recent>
-      <TextArea></TextArea>
+      <div className="main">
+        <TodayDate></TodayDate>
+        <TextArea></TextArea>
+      </div>
     </>
   );
 }
