@@ -4,7 +4,7 @@ import "./header.css";
 export default function Header() {
   return (
     <div className="header">
-      <p>Daily Logger</p>
+      <p className="title">Daily Logger</p>
       <Button type="primary">New Entry</Button>
     </div>
   );
