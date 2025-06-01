@@ -1,6 +1,13 @@
 import { useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import "./textArea.css";
+import { Button } from "antd";
+
+function getContent(quillRef: Quill | null) {
+  const textContent = quillRef?.getText();
+  console.log("Text Content:", textContent);
+}
 
 export default function TextArea() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,9 +26,24 @@ export default function TextArea() {
       if (containerRef.current) {
         containerRef.current.innerHTML = "";
       }
-      quillRef.current = null;
+
+      //   if (quillRef.current) {
+      //     quillRef.current = null;
+      //   }
     };
   }, []);
 
-  return <div ref={containerRef}></div>;
+  return (
+    <>
+      <div className="editor" ref={containerRef}></div>
+      <Button
+        type="primary"
+        onClick={() => {
+          getContent(quillRef.current);
+        }}
+      >
+        Save
+      </Button>
+    </>
+  );
 }
