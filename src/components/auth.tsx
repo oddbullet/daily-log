@@ -48,64 +48,28 @@ function SignOutFunction() {
     });
 }
 
-function NotNew() {}
-
-function SignIn({ onSignIn, Toggle }: AuthProp) {
-  return (
-    <>
-      <Button
-        icon={<GoogleOutlined />}
-        size={"large"}
-        onClick={() => SignUpFunction(onSignIn)}
-      >
-        Sign In with Google
-      </Button>
-      <p className="alternative-text">
-        Don't have an account? <a onClick={Toggle}>Sign Up</a>
-      </p>
-    </>
-  );
-}
-
-function SignUp({ onSignIn, Toggle }: AuthProp) {
-  return (
-    <>
-      <Button
-        icon={<GoogleOutlined />}
-        size={"large"}
-        onClick={() => SignUpFunction(onSignIn)}
-      >
-        Sign Up with Google
-      </Button>
-      <p className="alternative-text">
-        Already have an account? <a onClick={Toggle}>Sign In</a>
-      </p>
-    </>
-  );
-}
-
 interface AuthProp {
   onSignIn: () => void;
-  Toggle: () => void;
 }
 
 export default function Auth({ onSignIn }: AuthProp) {
-  const [isNew, setIsNew] = useState(true);
+  const [isSignIn, setSignIn] = useState(false);
 
-  const Toggle = () => {
-    setIsNew(!isNew);
-  };
-
-  if (isNew) {
-    return (
-      <div className="auth-container">
-        <SignUp onSignIn={onSignIn} Toggle={Toggle}></SignUp>
-      </div>
-    );
-  }
   return (
     <div className="auth-container">
-      <SignIn onSignIn={onSignIn} Toggle={Toggle}></SignIn>
+      <Button
+        icon={<GoogleOutlined />}
+        size={"large"}
+        onClick={() => SignUpFunction(onSignIn)}
+      >
+        {isSignIn ? "Sign In with Google" : "Sign Up with Google"}
+      </Button>
+      <p className="alternative-text">
+        Already have an account?{" "}
+        <a onClick={() => setSignIn(!isSignIn)}>
+          {isSignIn ? "Sign Up" : "Sign In"}
+        </a>
+      </p>
     </div>
   );
 }
