@@ -1,11 +1,19 @@
 import { Button } from "antd";
 import "./header.css";
 
-export default function Header() {
+interface HeaderProp {
+  setIsNewEntry: (state: boolean) => void;
+}
+
+export default function Header({ setIsNewEntry }: HeaderProp) {
   return (
     <div className="header">
       <p className="title">Daily Logger</p>
-      <Button type="primary">New Entry</Button>
+      <a>Logs</a>
+      <a>Dashboard</a>
+      <Button type="primary" onClick={() => setIsNewEntry(true)}>
+        New Entry
+      </Button>
     </div>
   );
 }

@@ -1,5 +1,7 @@
+import { useState } from "react";
 import "./body.css";
 import TextArea from "./textArea";
+import EntryView from "./entryView";
 
 function hour12(hour: number) {
   let hours = hour % 12;
@@ -48,12 +50,16 @@ function TodayDate() {
   );
 }
 
-export default function Body() {
+interface BodyProp {
+  isNewEntry: boolean;
+}
+
+export default function Body({ isNewEntry }: BodyProp) {
   return (
     <>
       <div className="main">
         <TodayDate></TodayDate>
-        <TextArea></TextArea>
+        {isNewEntry ? <TextArea></TextArea> : <EntryView></EntryView>}
       </div>
     </>
   );
