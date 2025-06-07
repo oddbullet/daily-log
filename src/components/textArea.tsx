@@ -3,13 +3,19 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "./textArea.css";
 import { Button } from "antd";
+import { addEntries } from "../lib/firebase";
 
-function getContent(quillRef: Quill | null) {
+function saveContent(quillRef: Quill | null) {
   const textContent = quillRef?.getText();
+  addEntries(textContent);
   console.log("Text Content:", textContent);
 }
 
-export default function TextArea() {
+interface TextAreaProp {
+  setIsNewEntry: (bool: boolean) => void;
+}
+
+export default function TextArea({ setIsNewEntry }: TextAreaProp) {
   const containerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<Quill | null>(null);
   const isMounted = useRef<boolean>(false);
@@ -34,16 +40,29 @@ export default function TextArea() {
   }, []);
 
   return (
-    <>
+    <div className="editor-container">
       <div className="editor" ref={containerRef}></div>
+      <Button color="danger" variant="solid" className="edt-btn delete-btn">
+        Delete
+      </Button>
       <Button
+        className="edt-btn close-btn"
+        onClick={() => {
+          setIsNewEntry(false);
+        }}
+      >
+        Close
+      </Button>
+      <Button
+        className="edt-btn"
         type="primary"
         onClick={() => {
-          getContent(quillRef.current);
+          saveContent(quillRef.current);
+          setIsNewEntry(false);
         }}
       >
         Save
       </Button>
-    </>
+    </div>
   );
 }

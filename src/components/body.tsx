@@ -52,14 +52,19 @@ function TodayDate() {
 
 interface BodyProp {
   isNewEntry: boolean;
+  setIsNewEntry: (bool: boolean) => void;
 }
 
-export default function Body({ isNewEntry }: BodyProp) {
+export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
   return (
     <>
       <div className="main">
         <TodayDate></TodayDate>
-        {isNewEntry ? <TextArea></TextArea> : <EntryView></EntryView>}
+        {isNewEntry ? (
+          <TextArea setIsNewEntry={setIsNewEntry}></TextArea>
+        ) : (
+          <EntryView></EntryView>
+        )}
       </div>
     </>
   );

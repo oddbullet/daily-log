@@ -76,19 +76,46 @@ function signOutFunc() {
 
 const db = getDatabase();
 
-function addEntries(entry: string) {
+function hour12(hour: number) {
+  let hours = hour % 12;
+  if (hours == 0) {
+    return 12;
+  } else {
+    return hours;
+  }
+}
+
+function addEntries(entry: string | undefined) {
   const today = new Date().toISOString().split("T")[0];
   if (!auth.currentUser) {
     console.log("User not Authenticated");
     return;
   }
 
+  const date = new Date();
+  const hour: number = date.getHours();
+  const minute: number = date.getMinutes();
+
+  const formattedMinute = minute.toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+
+  const time =
+    hour12(hour) + ":" + formattedMinute + " " + (hour < 12 ? "AM" : "PM");
+
   const entryData = {
     entry: entry,
+    time: time,
   };
 
   console.log("userID" + auth.currentUser?.uid);
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
-export { app, auth, signOutFunc, signInFunc, addEntries };
+function currentUser() {
+  console.log(auth.currentUser);
+  return auth.currentUser;
+}
+
+export { app, auth, signOutFunc, signInFunc, addEntries, currentUser };
