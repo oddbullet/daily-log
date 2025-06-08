@@ -1,0 +1,25 @@
+.editor-container {
+  margin-top: 10px;
+}
+.editor {
+  width: 800px;
+  height: 400px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.ql-toolbar {
+  width: 800px;
+}
+
+.edt-btn {
+  float: right;
+}
+
+.close-btn {
+  margin-left: 5px;
+}
+
+.delete-btn {
+  float: left;
+}
