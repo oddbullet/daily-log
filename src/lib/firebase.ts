@@ -7,7 +7,7 @@ import {
   signOut,
   type User,
 } from "firebase/auth";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -30,6 +30,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 const auth = getAuth(app);
+const db = getDatabase();
 
 let userId: User | null = null;
 
@@ -74,8 +75,6 @@ function signOutFunc() {
     });
 }
 
-const db = getDatabase();
-
 function hour12(hour: number) {
   let hours = hour % 12;
   if (hours == 0) {
@@ -113,9 +112,40 @@ function addEntries(entry: string | undefined) {
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
+function getTodayEntires(callback: (data: any) => void) {
+  const entriesRef = ref(db, "users/" + auth.currentUser?.uid + "/entries");
+  const today = new Date().toISOString().split("T")[0];
+  onValue(entriesRef, (snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) {
+      callback([]);
+      return;
+    }
+
+    const objectData = Object.entries(data[today])
+      .map(([id, value]) => ({
+        id,
+        ...value!,
+      }))
+      .reverse();
+
+    console.log("objectData ", objectData);
+    callback(objectData);
+  });
+}
+
 function currentUser() {
   console.log(auth.currentUser);
   return auth.currentUser;
 }
 
-export { app, auth, signOutFunc, signInFunc, addEntries, currentUser };
+export {
+  app,
+  auth,
+  signOutFunc,
+  signInFunc,
+  addEntries,
+  currentUser,
+  getTodayEntires,
+};

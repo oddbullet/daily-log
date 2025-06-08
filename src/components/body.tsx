@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./body.css";
 import TextArea from "./textArea";
-import EntryView from "./entryView";
+import { LoadEntryView } from "./entryView";
 
 function hour12(hour: number) {
   let hours = hour % 12;
@@ -63,7 +63,7 @@ export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
         {isNewEntry ? (
           <TextArea setIsNewEntry={setIsNewEntry}></TextArea>
         ) : (
-          <EntryView></EntryView>
+          <LoadEntryView></LoadEntryView>
         )}
       </div>
     </>
