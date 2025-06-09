@@ -9,8 +9,8 @@ export default function Header({ setIsNewEntry }: HeaderProp) {
   return (
     <div className="header">
       <p className="title">Daily Logger</p>
-      <a>Logs</a>
-      <a>Dashboard</a>
+      <a className="header-btn">Logs</a>
+      <a className="header-btn">Dashboard</a>
       <Button type="primary" onClick={() => setIsNewEntry(true)}>
         New Entry
       </Button>
