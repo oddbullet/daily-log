@@ -3,16 +3,21 @@ import Header from "../components/header";
 import Body from "../components/body";
 import { useEffect, useState } from "react";
 import Auth from "../components/auth";
-import { currentUser } from "../lib/firebase";
+import { auth } from "../lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [isSignIn, setSignIn] = useState(false);
   const [isNewEntry, setIsNewEntry] = useState(false);
 
   useEffect(() => {
-    if (currentUser()) {
-      setSignIn(true);
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setSignIn(true);
+      } else {
+        setSignIn(false);
+      }
+    });
   }, []);
 
   if (!isSignIn) {
