@@ -1,16 +1,6 @@
-import { useState } from "react";
 import "./body.css";
 import TextArea from "./textArea";
 import { LoadEntryView } from "./entryView";
-
-function hour12(hour: number) {
-  let hours = hour % 12;
-  if (hours == 0) {
-    return 12;
-  } else {
-    return hours;
-  }
-}
 
 // Date, Day, Hours, and Minutes
 function TodayDate() {
@@ -32,16 +22,16 @@ function TodayDate() {
   const date = new Date();
   const monthName: string = months[date.getMonth()];
   const dateNumber: number = date.getDate();
-  const hour: number = date.getHours();
-  const minute: number = date.getMinutes();
 
-  const formattedMinute = minute.toLocaleString("en-US", {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
   });
 
-  const time =
-    hour12(hour) + ":" + formattedMinute + " " + (hour < 12 ? "AM" : "PM");
+  // const time = new Intl.DateTimeFormat(["en-US"], {
+  //   hour: "numeric",
+  //   minute: "numeric",
+  // }).format(date);
 
   return (
     <div className="date">
@@ -56,6 +46,8 @@ interface BodyProp {
 }
 
 export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
+  const today: string = new Date().toISOString().split("T")[0];
+
   return (
     <>
       <div className="main">
@@ -63,7 +55,7 @@ export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
         {isNewEntry ? (
           <TextArea setIsNewEntry={setIsNewEntry}></TextArea>
         ) : (
-          <LoadEntryView></LoadEntryView>
+          <LoadEntryView getDate={today}></LoadEntryView>
         )}
       </div>
     </>

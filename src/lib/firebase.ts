@@ -72,16 +72,8 @@ function signOutFunc() {
     })
     .catch((error) => {
       // An error happened.
+      console.log("Failed to Sign Out");
     });
-}
-
-function hour12(hour: number) {
-  let hours = hour % 12;
-  if (hours == 0) {
-    return 12;
-  } else {
-    return hours;
-  }
 }
 
 function addEntries(entry: string | undefined) {
@@ -92,16 +84,11 @@ function addEntries(entry: string | undefined) {
   }
 
   const date = new Date();
-  const hour: number = date.getHours();
-  const minute: number = date.getMinutes();
 
-  const formattedMinute = minute.toLocaleString("en-US", {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
+  const time = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
   });
-
-  const time =
-    hour12(hour) + ":" + formattedMinute + " " + (hour < 12 ? "AM" : "PM");
 
   const entryData = {
     entry: entry,
@@ -112,25 +99,25 @@ function addEntries(entry: string | undefined) {
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
-function getTodayEntires(callback: (data: any) => void) {
+function getDateEntires(getDate: string, callback: (data: any) => void) {
   const entriesRef = ref(db, "users/" + auth.currentUser?.uid + "/entries");
-  const today = new Date().toISOString().split("T")[0];
+  // const today = new Date().toISOString().split("T")[0];
   onValue(entriesRef, (snapshot) => {
     const data = snapshot.val();
 
-    if (!data) {
+    if (!data || !data[getDate]) {
       callback([]);
       return;
     }
 
-    const objectData = Object.entries(data[today])
+    const objectData = Object.entries(data[getDate])
       .map(([id, value]) => ({
         id,
         ...value!,
       }))
       .reverse();
 
-    console.log("objectData ", objectData);
+    // console.log("objectData ", objectData);
     callback(objectData);
   });
 }
@@ -147,5 +134,5 @@ export {
   signInFunc,
   addEntries,
   currentUser,
-  getTodayEntires,
+  getDateEntires,
 };

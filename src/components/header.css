@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 10px 25px 10px 25px;
   /* box-shadow: 0 2px 0px 0px rgba(0, 0, 0, 0.1); */
 }
@@ -9,4 +9,17 @@
 .title {
   font-size: 22px;
   font-weight: bold;
+}
+
+.header-btn {
+  flex-grow: 1;
+  text-align: center;
+  padding: 10px;
+  margin: 0px 10px;
+}
+
+.header-btn:hover {
+  background-color: #0000000a;
+  border-radius: 10px;
+  cursor: pointer;
 }

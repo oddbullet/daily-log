@@ -17,3 +17,11 @@
 .card-content {
   color: #333;
 }
+
+.entryView-li {
+  transition: all 0.3s ease;
+}
+
+.entryView-li:hover {
+  transform: scale(1.1);
+}
