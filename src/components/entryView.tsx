@@ -15,7 +15,7 @@ function LoadEntryView({ getDate }: { getDate: string }) {
 
   if (entires && entires.length != 0) {
     const listItems = entires.map((entry: any) => (
-      <li key={entry.id}>
+      <li className="entryView-li" key={entry.id}>
         <EntryView date={entry.time} content={entry.entry}></EntryView>
       </li>
     ));
