@@ -1,19 +1,19 @@
 import "./entryView.css";
-import { getTodayEntires } from "../lib/firebase";
+import { getDateEntires } from "../lib/firebase";
 import { useEffect, useState } from "react";
 
-function LoadEntryView() {
-  const [entires, setEntries] = useState<any>(null);
+function LoadEntryView({ getDate }: { getDate: string }) {
+  const [entires, setEntries] = useState<Array<JSON> | null>(null);
 
   useEffect(() => {
-    getTodayEntires((data: any) => {
+    getDateEntires(getDate, (data: any) => {
       setEntries(data);
     });
-  }, []);
+  }, [getDate]);
 
-  console.log("Entries", entires);
+  // console.log("Entries", entires);
 
-  if (entires) {
+  if (entires && entires.length != 0) {
     const listItems = entires.map((entry: any) => (
       <li key={entry.id}>
         <EntryView date={entry.time} content={entry.entry}></EntryView>
