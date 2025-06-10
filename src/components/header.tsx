@@ -17,7 +17,7 @@ export default function Header({ setIsNewEntry, setPage }: HeaderProp) {
         Logs
       </a>
       <a className="header-btn" onClick={() => setPage(2)}>
-        Dashboard
+        Setting
       </a>
       <Button
         type="primary"

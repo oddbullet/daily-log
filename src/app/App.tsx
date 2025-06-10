@@ -7,6 +7,7 @@ import { auth } from "../lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Log from "../components/log";
 import Dashboard from "../components/dashboard";
+import Setting from "../components/setting";
 
 function App() {
   const [isSignIn, setSignIn] = useState(false);
@@ -20,7 +21,7 @@ function App() {
   const page: numberAndJSX = {
     0: <Body isNewEntry={isNewEntry} setIsNewEntry={setIsNewEntry}></Body>,
     1: <Log></Log>,
-    2: <Dashboard></Dashboard>,
+    2: <Setting></Setting>,
   };
 
   useEffect(() => {
