@@ -1,13 +1,14 @@
 import { Calendar } from "antd";
 import { LoadEntryView } from "./entryView";
 import { useState } from "react";
+import "./log.css";
 
 export default function Log() {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   return (
-    <>
-      <div style={{ width: "300px" }}>
+    <div className="log-page">
+      <div className="log-calendar">
         <Calendar
           fullscreen={false}
           onSelect={(date, { source }) => {
@@ -17,7 +18,9 @@ export default function Log() {
           }}
         />
       </div>
-      <LoadEntryView getDate={date}></LoadEntryView>
-    </>
+      <div className="log-view">
+        <LoadEntryView getDate={date}></LoadEntryView>
+      </div>
+    </div>
   );
 }

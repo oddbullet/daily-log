@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./body.css";
 import TextArea from "./textArea";
 import { LoadEntryView } from "./entryView";

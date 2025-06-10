@@ -1,0 +1,14 @@
+.log-page {
+  display: flex;
+}
+
+.log-calendar {
+  width: 300px;
+}
+
+.log-view {
+  flex-grow: 2;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
