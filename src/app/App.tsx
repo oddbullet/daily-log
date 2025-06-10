@@ -1,14 +1,27 @@
 import "./App.css";
 import Header from "../components/header";
 import Body from "../components/body";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import Auth from "../components/auth";
 import { auth } from "../lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Log from "../components/log";
+import Dashboard from "../components/dashboard";
 
 function App() {
   const [isSignIn, setSignIn] = useState(false);
   const [isNewEntry, setIsNewEntry] = useState(false);
+  const [pageState, setPage] = useState(0);
+
+  interface numberAndJSX {
+    [key: number]: JSX.Element;
+  }
+
+  const page: numberAndJSX = {
+    0: <Body isNewEntry={isNewEntry} setIsNewEntry={setIsNewEntry}></Body>,
+    1: <Log></Log>,
+    2: <Dashboard></Dashboard>,
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -31,8 +44,9 @@ function App() {
   }
   return (
     <div className="app">
-      <Header setIsNewEntry={setIsNewEntry}></Header>
-      <Body isNewEntry={isNewEntry} setIsNewEntry={setIsNewEntry}></Body>
+      <Header setIsNewEntry={setIsNewEntry} setPage={setPage}></Header>
+      {/* <Body isNewEntry={isNewEntry} setIsNewEntry={setIsNewEntry}></Body> */}
+      {page[pageState]}
     </div>
   );
 }
