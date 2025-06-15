@@ -8,7 +8,6 @@ import { addEntries } from "../lib/firebase";
 function saveContent(quillRef: Quill | null) {
   const textContent = quillRef?.getText();
   addEntries(textContent);
-  console.log("Text Content:", textContent);
 }
 
 interface TextAreaProp {
