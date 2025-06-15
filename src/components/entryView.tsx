@@ -2,7 +2,13 @@ import "./entryView.css";
 import { getDateEntires } from "../lib/firebase";
 import { useEffect, useState } from "react";
 
-function LoadEntryView({ getDate }: { getDate: string }) {
+function LoadEntryView({
+  getDate,
+  setEdit,
+}: {
+  getDate: string;
+  setEdit: (content: any) => void;
+}) {
   const [entires, setEntries] = useState<Array<JSON> | null>(null);
 
   useEffect(() => {
@@ -13,11 +19,17 @@ function LoadEntryView({ getDate }: { getDate: string }) {
 
   // console.log("Entries", entires);
 
-  function editEntry() {}
+  function editEntry(content: any) {
+    setEdit(content);
+  }
 
   if (entires && entires.length != 0) {
     const listItems = entires.map((entry: any) => (
-      <li className="entryView-li" key={entry.id}>
+      <li
+        className="entryView-li"
+        key={entry.id}
+        onClick={() => editEntry(entry)}
+      >
         <EntryView date={entry.time} content={entry.entry}></EntryView>
       </li>
     ));

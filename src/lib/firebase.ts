@@ -93,6 +93,27 @@ function addEntries(entry: string | undefined) {
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
+function updateEntries(entry: string | undefined, id: string | null) {
+  const today = getLocalDate();
+
+  console.log(id);
+
+  if (!auth.currentUser) {
+    console.log("User not Authenticated");
+    return;
+  }
+
+  const entryData = {
+    entry: entry,
+    time: getLocalTime(),
+  };
+
+  set(
+    ref(db, `users/${auth.currentUser.uid}/entries/${today}/${id}`),
+    entryData
+  );
+}
+
 function getDateEntires(getDate: string, callback: (data: any) => void) {
   const entriesRef = ref(db, "users/" + auth.currentUser?.uid + "/entries");
 
@@ -127,6 +148,7 @@ export {
   signOutFunc,
   signInFunc,
   addEntries,
+  updateEntries,
   currentUser,
   getDateEntires,
 };

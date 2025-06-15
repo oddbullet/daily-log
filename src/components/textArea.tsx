@@ -1,20 +1,31 @@
 import { useEffect, useRef } from "react";
-import Quill from "quill";
+import Quill, { Delta } from "quill";
 import "quill/dist/quill.snow.css";
 import "./textArea.css";
 import { Button } from "antd";
-import { addEntries } from "../lib/firebase";
+import { addEntries, updateEntries } from "../lib/firebase";
 
-function saveContent(quillRef: Quill | null) {
+function saveContent(quillRef: Quill | null, editContent: any) {
   const textContent = quillRef?.getText();
-  addEntries(textContent);
+
+  if (editContent == null) {
+    addEntries(textContent);
+  } else {
+    updateEntries(textContent, editContent.id);
+  }
 }
 
 interface TextAreaProp {
   setIsNewEntry: (bool: boolean) => void;
+  editContent: any;
+  setEdit: (content: any) => void;
 }
 
-export default function TextArea({ setIsNewEntry }: TextAreaProp) {
+export default function TextArea({
+  setIsNewEntry,
+  editContent,
+  setEdit,
+}: TextAreaProp) {
   const containerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<Quill | null>(null);
   const isMounted = useRef<boolean>(false);
@@ -38,6 +49,11 @@ export default function TextArea({ setIsNewEntry }: TextAreaProp) {
     };
   }, []);
 
+  useEffect(() => {
+    const delta = new Delta().insert(editContent.entry);
+    quillRef.current?.setContents(delta);
+  }, []);
+
   return (
     <div className="editor-container">
       <div className="editor" ref={containerRef}></div>
@@ -48,6 +64,7 @@ export default function TextArea({ setIsNewEntry }: TextAreaProp) {
         className="edt-btn close-btn"
         onClick={() => {
           setIsNewEntry(false);
+          setEdit(null);
         }}
       >
         Close
@@ -56,8 +73,9 @@ export default function TextArea({ setIsNewEntry }: TextAreaProp) {
         className="edt-btn"
         type="primary"
         onClick={() => {
-          saveContent(quillRef.current);
+          saveContent(quillRef.current, editContent);
           setIsNewEntry(false);
+          setEdit(null);
         }}
       >
         Save

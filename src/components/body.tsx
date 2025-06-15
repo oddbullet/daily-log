@@ -2,6 +2,7 @@ import "./body.css";
 import TextArea from "./textArea";
 import { LoadEntryView } from "./entryView";
 import { getLocalDate, getLocalTime, getMonth } from "../lib/timeStuff";
+import { useState } from "react";
 
 // Date, Day, Hours, and Minutes
 function TodayDate() {
@@ -23,15 +24,20 @@ interface BodyProp {
 
 export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
   const today: string = getLocalDate();
+  const [editContent, setEdit] = useState<any>(null);
 
   return (
     <>
       <div className="main">
         <TodayDate></TodayDate>
-        {isNewEntry ? (
-          <TextArea setIsNewEntry={setIsNewEntry}></TextArea>
+        {isNewEntry || editContent ? (
+          <TextArea
+            setIsNewEntry={setIsNewEntry}
+            editContent={editContent}
+            setEdit={setEdit}
+          ></TextArea>
         ) : (
-          <LoadEntryView getDate={today}></LoadEntryView>
+          <LoadEntryView getDate={today} setEdit={setEdit}></LoadEntryView>
         )}
       </div>
     </>
