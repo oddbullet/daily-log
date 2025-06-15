@@ -1,12 +1,12 @@
 import "./body.css";
 import TextArea from "./textArea";
 import { LoadEntryView } from "./entryView";
-import { date, getLocalDate, getLocalTime, getMonth } from "../lib/timeStuff";
+import { getLocalDate, getLocalTime, getMonth } from "../lib/timeStuff";
 
 // Date, Day, Hours, and Minutes
 function TodayDate() {
   const monthName: string = getMonth();
-  const dateNumber: number = date.getDate();
+  const dateNumber: number = new Date().getDate();
   const time = getLocalTime();
 
   return (
