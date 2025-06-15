@@ -2,9 +2,10 @@ import { Calendar } from "antd";
 import { LoadEntryView } from "./entryView";
 import { useState } from "react";
 import "./log.css";
+import { getLocalDate } from "../lib/timeStuff";
 
 export default function Log() {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(getLocalDate());
 
   return (
     <div className="log-page">
@@ -13,7 +14,7 @@ export default function Log() {
           fullscreen={false}
           onSelect={(date, { source }) => {
             if (source === "date") {
-              setDate(date.toISOString().split("T")[0]);
+              setDate(date.format("MM-DD-YYYY"));
             }
           }}
         />

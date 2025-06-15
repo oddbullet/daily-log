@@ -13,6 +13,8 @@ function LoadEntryView({ getDate }: { getDate: string }) {
 
   // console.log("Entries", entires);
 
+  function editEntry() {}
+
   if (entires && entires.length != 0) {
     const listItems = entires.map((entry: any) => (
       <li className="entryView-li" key={entry.id}>

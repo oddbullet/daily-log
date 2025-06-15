@@ -8,6 +8,7 @@ import {
   type User,
 } from "firebase/auth";
 import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import { getLocalDate, getLocalTime } from "./timeStuff";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -77,31 +78,24 @@ function signOutFunc() {
 }
 
 function addEntries(entry: string | undefined) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDate();
+
   if (!auth.currentUser) {
     console.log("User not Authenticated");
     return;
   }
 
-  const date = new Date();
-
-  const time = date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-  });
-
   const entryData = {
     entry: entry,
-    time: time,
+    time: getLocalTime(),
   };
 
-  console.log("userID" + auth.currentUser?.uid);
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
 function getDateEntires(getDate: string, callback: (data: any) => void) {
   const entriesRef = ref(db, "users/" + auth.currentUser?.uid + "/entries");
-  // const today = new Date().toISOString().split("T")[0];
+
   onValue(entriesRef, (snapshot) => {
     const data = snapshot.val();
 

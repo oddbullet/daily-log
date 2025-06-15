@@ -1,37 +1,13 @@
 import "./body.css";
 import TextArea from "./textArea";
 import { LoadEntryView } from "./entryView";
+import { getLocalDate, getLocalTime, getMonth } from "../lib/timeStuff";
 
 // Date, Day, Hours, and Minutes
 function TodayDate() {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const date = new Date();
-  const monthName: string = months[date.getMonth()];
-  const dateNumber: number = date.getDate();
-
-  const time = date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-  });
-
-  // const time = new Intl.DateTimeFormat(["en-US"], {
-  //   hour: "numeric",
-  //   minute: "numeric",
-  // }).format(date);
+  const monthName: string = getMonth();
+  const dateNumber: number = new Date().getDate();
+  const time = getLocalTime();
 
   return (
     <div className="date">
@@ -46,7 +22,7 @@ interface BodyProp {
 }
 
 export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
-  const today: string = new Date().toISOString().split("T")[0];
+  const today: string = getLocalDate();
 
   return (
     <>
