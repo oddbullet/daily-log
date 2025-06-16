@@ -11,7 +11,7 @@ function saveContent(quillRef: Quill | null, editContent: any) {
   if (editContent == null) {
     addEntries(textContent);
   } else {
-    updateEntries(textContent, editContent.id);
+    updateEntries(textContent, editContent.id, editContent.time);
   }
 }
 
@@ -50,8 +50,10 @@ export default function TextArea({
   }, []);
 
   useEffect(() => {
-    const delta = new Delta().insert(editContent.entry);
-    quillRef.current?.setContents(delta);
+    if (editContent) {
+      const delta = new Delta().insert(editContent.entry);
+      quillRef.current?.setContents(delta);
+    }
   }, []);
 
   return (

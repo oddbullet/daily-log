@@ -93,7 +93,11 @@ function addEntries(entry: string | undefined) {
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
 }
 
-function updateEntries(entry: string | undefined, id: string | null) {
+function updateEntries(
+  entry: string | undefined,
+  id: string | null,
+  time: string | null
+) {
   const today = getLocalDate();
 
   console.log(id);
@@ -103,9 +107,14 @@ function updateEntries(entry: string | undefined, id: string | null) {
     return;
   }
 
+  if (!id) {
+    console.log("id is empty");
+    return;
+  }
+
   const entryData = {
     entry: entry,
-    time: getLocalTime(),
+    time: time,
   };
 
   set(

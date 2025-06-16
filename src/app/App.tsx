@@ -6,7 +6,6 @@ import Auth from "../components/auth";
 import { auth } from "../lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Log from "../components/log";
-import Dashboard from "../components/dashboard";
 import Setting from "../components/setting";
 
 function App() {
