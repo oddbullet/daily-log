@@ -102,11 +102,10 @@ function addEntry(entry: string | undefined) {
 
 function updateEntry(
   entry: string | undefined,
+  date: string,
   id: string | null,
   time: string | null
 ) {
-  const today = getLocalDate();
-
   console.log(id);
 
   if (!auth.currentUser) {
@@ -125,7 +124,7 @@ function updateEntry(
   };
 
   set(
-    ref(db, `users/${auth.currentUser.uid}/entries/${today}/${id}`),
+    ref(db, `users/${auth.currentUser.uid}/entries/${date}/${id}`),
     entryData
   );
 }

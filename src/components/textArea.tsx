@@ -5,13 +5,13 @@ import "./textArea.css";
 import { Button } from "antd";
 import { addEntry, deleteEntry, updateEntry } from "../lib/firebase";
 
-function saveContent(quillRef: Quill | null, editContent: any) {
+function saveContent(quillRef: Quill | null, editContent: any, date: string) {
   const textContent = quillRef?.getText();
 
   if (editContent == null) {
     addEntry(textContent);
   } else {
-    updateEntry(textContent, editContent.id, editContent.time);
+    updateEntry(textContent, date, editContent.id, editContent.time);
   }
 }
 
@@ -92,7 +92,7 @@ export default function TextArea({
         className="edt-btn"
         type="primary"
         onClick={() => {
-          saveContent(quillRef.current, editContent);
+          saveContent(quillRef.current, editContent, date);
           setIsNewEntry(false);
           setEdit(null);
         }}
