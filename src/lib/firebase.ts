@@ -106,8 +106,6 @@ function updateEntry(
   id: string | null,
   time: string | null
 ) {
-  console.log(id);
-
   if (!auth.currentUser) {
     console.log("User not Authenticated");
     return;
