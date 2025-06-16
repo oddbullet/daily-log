@@ -7,7 +7,14 @@ import {
   signOut,
   type User,
 } from "firebase/auth";
-import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  set,
+} from "firebase/database";
 import { getLocalDate, getLocalTime } from "./timeStuff";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -77,7 +84,7 @@ function signOutFunc() {
     });
 }
 
-function addEntries(entry: string | undefined) {
+function addEntry(entry: string | undefined) {
   const today = getLocalDate();
 
   if (!auth.currentUser) {
@@ -91,6 +98,46 @@ function addEntries(entry: string | undefined) {
   };
 
   push(ref(db, `users/${auth.currentUser.uid}/entries/${today}`), entryData);
+}
+
+function updateEntry(
+  entry: string | undefined,
+  date: string,
+  id: string | null,
+  time: string | null
+) {
+  if (!auth.currentUser) {
+    console.log("User not Authenticated");
+    return;
+  }
+
+  if (!id) {
+    console.log("id is empty");
+    return;
+  }
+
+  const entryData = {
+    entry: entry,
+    time: time,
+  };
+
+  set(
+    ref(db, `users/${auth.currentUser.uid}/entries/${date}/${id}`),
+    entryData
+  );
+}
+
+function deleteEntry(date: string, id: string) {
+  if (!auth.currentUser) {
+    console.log("User not Authenticated");
+    return;
+  }
+
+  const location = ref(
+    db,
+    `users/${auth.currentUser.uid}/entries/${date}/${id}`
+  );
+  remove(location);
 }
 
 function getDateEntires(getDate: string, callback: (data: any) => void) {
@@ -126,7 +173,9 @@ export {
   auth,
   signOutFunc,
   signInFunc,
-  addEntries,
+  addEntry,
+  updateEntry,
+  deleteEntry,
   currentUser,
   getDateEntires,
 };

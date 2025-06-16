@@ -3,9 +3,14 @@ import { LoadEntryView } from "./entryView";
 import { useState } from "react";
 import "./log.css";
 import { getLocalDate } from "../lib/timeStuff";
-
+import TextArea from "./textArea";
+// TODO Editing on Log Page
 export default function Log() {
   const [date, setDate] = useState(getLocalDate());
+  const [editContent, setEdit] = useState<any>(null);
+  const [isNewEntry, setEntry] = useState(true); // Dummy
+
+  console.log(editContent);
 
   return (
     <div className="log-page">
@@ -20,7 +25,16 @@ export default function Log() {
         />
       </div>
       <div className="log-view">
-        <LoadEntryView getDate={date}></LoadEntryView>
+        {editContent ? (
+          <TextArea
+            setIsNewEntry={setEntry}
+            editContent={editContent}
+            setEdit={setEdit}
+            date={date}
+          ></TextArea>
+        ) : (
+          <LoadEntryView getDate={date} setEdit={setEdit}></LoadEntryView>
+        )}
       </div>
     </div>
   );
