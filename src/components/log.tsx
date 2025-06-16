@@ -30,6 +30,7 @@ export default function Log() {
             setIsNewEntry={setEntry}
             editContent={editContent}
             setEdit={setEdit}
+            date={date}
           ></TextArea>
         ) : (
           <LoadEntryView getDate={date} setEdit={setEdit}></LoadEntryView>

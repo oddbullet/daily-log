@@ -35,6 +35,7 @@ export default function Body({ isNewEntry, setIsNewEntry }: BodyProp) {
             setIsNewEntry={setIsNewEntry}
             editContent={editContent}
             setEdit={setEdit}
+            date={today}
           ></TextArea>
         ) : (
           <LoadEntryView getDate={today} setEdit={setEdit}></LoadEntryView>

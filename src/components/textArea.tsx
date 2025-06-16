@@ -3,15 +3,21 @@ import Quill, { Delta } from "quill";
 import "quill/dist/quill.snow.css";
 import "./textArea.css";
 import { Button } from "antd";
-import { addEntries, updateEntries } from "../lib/firebase";
+import { addEntry, deleteEntry, updateEntry } from "../lib/firebase";
 
 function saveContent(quillRef: Quill | null, editContent: any) {
   const textContent = quillRef?.getText();
 
   if (editContent == null) {
-    addEntries(textContent);
+    addEntry(textContent);
   } else {
-    updateEntries(textContent, editContent.id, editContent.time);
+    updateEntry(textContent, editContent.id, editContent.time);
+  }
+}
+
+function deleteFunc(date: string, editContent: any) {
+  if (editContent) {
+    deleteEntry(date, editContent.id);
   }
 }
 
@@ -19,12 +25,14 @@ interface TextAreaProp {
   setIsNewEntry: (bool: boolean) => void;
   editContent: any;
   setEdit: (content: any) => void;
+  date: string;
 }
 
 export default function TextArea({
   setIsNewEntry,
   editContent,
   setEdit,
+  date,
 }: TextAreaProp) {
   const containerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<Quill | null>(null);
@@ -59,7 +67,16 @@ export default function TextArea({
   return (
     <div className="editor-container">
       <div className="editor" ref={containerRef}></div>
-      <Button color="danger" variant="solid" className="edt-btn delete-btn">
+      <Button
+        color="danger"
+        variant="solid"
+        className="edt-btn delete-btn"
+        onClick={() => {
+          setIsNewEntry(false);
+          setEdit(null);
+          deleteFunc(date, editContent);
+        }}
+      >
         Delete
       </Button>
       <Button
