@@ -1,25 +1,46 @@
 import { GoogleOutlined } from "@ant-design/icons";
 import Button from "antd/es/button";
-import { signInFunc } from "../lib/firebase";
+import { signInEmail, signInGoogle } from "../lib/firebase";
 import { Divider, Input } from "antd";
+import { useState } from "react";
+import type { Auth } from "firebase/auth";
 
 interface AuthProp {
   onSignIn: () => void;
   setSignIn: (state: boolean) => void;
 }
 
+function signInFunc(
+  email: string,
+  password: string,
+  { onSignIn }: { onSignIn: () => void }
+) {
+  signInEmail(email, password, { onSignIn });
+}
+
 function SignInPage({ onSignIn, setSignIn }: AuthProp) {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   return (
     <div className="auth-container">
       <h1>Welcome Back</h1>
-      <Input placeholder="Email" />
-      <Input.Password placeholder="Password" />
-      <Button type="primary">Sign In</Button>
+      <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <Input.Password
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <Button
+        type="primary"
+        onClick={() => signInFunc(email, password, { onSignIn })}
+      >
+        Sign In
+      </Button>
       <Divider>or</Divider>
       <Button
         icon={<GoogleOutlined />}
         size={"large"}
-        onClick={() => signInFunc({ onSignIn })}
+        onClick={() => signInGoogle({ onSignIn })}
       >
         Sign In with Google
       </Button>

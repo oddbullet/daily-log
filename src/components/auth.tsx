@@ -1,8 +1,5 @@
-import { Button } from "antd";
-import { GoogleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import "./auth.css";
-import { signInFunc } from "../lib/firebase";
 import { SignInPage } from "./signIn";
 import { SignUpPage } from "./signUp";
 

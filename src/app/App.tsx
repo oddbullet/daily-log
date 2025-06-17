@@ -42,6 +42,7 @@ function App() {
       ></Auth>
     );
   }
+
   return (
     <div className="app">
       <Header setIsNewEntry={setIsNewEntry} setPage={setPage}></Header>
