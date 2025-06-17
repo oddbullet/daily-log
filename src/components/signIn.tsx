@@ -3,7 +3,6 @@ import Button from "antd/es/button";
 import { signInEmail, signInGoogle } from "../lib/firebase";
 import { Divider, Input } from "antd";
 import { useState } from "react";
-import type { Auth } from "firebase/auth";
 
 interface AuthProp {
   onSignIn: () => void;

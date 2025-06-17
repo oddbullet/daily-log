@@ -4,11 +4,11 @@ import { useState } from "react";
 import "./log.css";
 import { getLocalDate } from "../lib/timeStuff";
 import TextArea from "./textArea";
-// TODO Editing on Log Page
+
 export default function Log() {
   const [date, setDate] = useState(getLocalDate());
   const [editContent, setEdit] = useState<any>(null);
-  const [isNewEntry, setEntry] = useState(true); // Dummy
+  const [, setEntry] = useState(true); // Dummy
 
   console.log(editContent);
 
