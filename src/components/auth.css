@@ -1,11 +1,36 @@
-.auth-container {
+.auth-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
   justify-content: center;
   align-items: center;
+  background-color: #f8fafc;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  width: 21rem;
+  gap: 5px;
+  padding: 20px;
+  border: solid;
+  border-width: thin;
+  border-color: oklch(92.8% 0.006 264.531);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border-radius: 5px;
+}
+
+.bottom-text {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
 }
 
 .alternative-text {
-  margin-top: 5px;
+  margin-left: 5px;
+  color: blueviolet;
+  text-decoration: underline;
+  cursor: pointer;
 }

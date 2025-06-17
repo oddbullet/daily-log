@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
+  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   type User,
@@ -46,7 +48,7 @@ interface AuthProp {
   onSignIn: () => void;
 }
 
-function signInFunc({ onSignIn }: AuthProp) {
+function signInGoogle({ onSignIn }: AuthProp) {
   const provider = new GoogleAuthProvider();
 
   signInWithPopup(auth, provider)
@@ -69,6 +71,39 @@ function signInFunc({ onSignIn }: AuthProp) {
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
+    });
+}
+
+function signInEmail(email: string, password: string, { onSignIn }: AuthProp) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+
+      onSignIn();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      console.error(errorMessage);
+    });
+}
+
+function signUpEmail(email: string, password: string, { onSignIn }: AuthProp) {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      const user = userCredential.user;
+      // ...
+
+      onSignIn();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
     });
 }
 
@@ -172,7 +207,9 @@ export {
   app,
   auth,
   signOutFunc,
-  signInFunc,
+  signInGoogle,
+  signInEmail,
+  signUpEmail,
   addEntry,
   updateEntry,
   deleteEntry,
