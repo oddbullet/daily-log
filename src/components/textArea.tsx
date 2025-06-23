@@ -42,6 +42,9 @@ export default function TextArea({
     if (!isMounted.current) {
       quillRef.current = new Quill(containerRef.current!, {
         theme: "snow",
+        modules: {
+          toolbar: [],
+        },
       });
       isMounted.current = true;
     }
