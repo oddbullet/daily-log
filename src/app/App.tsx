@@ -35,11 +35,13 @@ function App() {
 
   if (!isSignIn) {
     return (
-      <Auth
-        onSignIn={() => {
-          setSignIn(true);
-        }}
-      ></Auth>
+      <div className="app">
+        <Auth
+          onSignIn={() => {
+            setSignIn(true);
+          }}
+        ></Auth>
+      </div>
     );
   }
 
